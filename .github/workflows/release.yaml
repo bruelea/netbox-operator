@@ -51,13 +51,13 @@ jobs:
 
       - name: Update kustomization.yaml
         run: |
-          ./scripts/bump-version.sh "${{ inputs.tagName }}"
+          ./scripts/bump-version.sh "${{ inputs.version }}"
 
       - name: Update CHANGELOG.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./scripts/update-changelog-from-release.sh "${{ inputs.tagName }}"
+          ./scripts/update-changelog-from-release.sh "${{ inputs.version }}"
 
       - name: Commit and push changes
         env:
@@ -70,7 +70,7 @@ jobs:
           fi
 
           git add config/manager/kustomization.yaml CHANGELOG.md
-          git commit -m "[skip ci] chore: bump version to ${{ inputs.tagName }} and update changelog"
+          git commit -m "[skip ci] chore: bump version to ${{ inputs.version }} and update changelog"
 
           # Push the branch and create PR
           git push
