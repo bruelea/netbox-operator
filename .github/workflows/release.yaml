@@ -32,22 +32,16 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-      # - name: Create GitHub Release
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   run: |
-      #     # Determine if this is a prerelease
-      #     PRERELEASE=""
-      #     if [[ "${{ steps.tag_data.outputs.TAG_NAME }}" =~ (alpha|beta|rc) ]]; then
-      #       PRERELEASE="--prerelease"
-      #     fi
-
-      #     # Create release with auto-generated notes
-      #     gh release create "${{ steps.tag_data.outputs.TAG_NAME }}" \
-      #       --title "${{ steps.tag_data.outputs.TAG_NAME }}" \
-      #       --notes "${{ steps.tag_data.outputs.TAG_MESSAGE }}" \
-      #       --generate-notes \
-      #       $PRERELEASE
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Create release with auto-generated notes
+          gh release create "${{ inputs.version }}" \
+            --title "${{ inputs.version }}" \
+            --notes "${{ inputs.tagMessage }}" \
+            --generate-notes \
+            $PRERELEASE
 
       - name: Update kustomization.yaml
         run: |
