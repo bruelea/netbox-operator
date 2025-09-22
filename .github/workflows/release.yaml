@@ -36,6 +36,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Fail if tag already exists
+          existing_tags=$(gh release list --limit 1000 --json tagName --jq '.[].tagName')
+          if echo "$existing_tags" | grep -qx "${{ inputs.version }}"; then
+            echo "Release tag ${{ inputs.version }} already exists. Exiting."
+            exit 1
+          fi
+
           # Create release with auto-generated notes
           gh release create "${{ inputs.version }}" \
             --title "${{ inputs.version }}" \
@@ -65,6 +72,7 @@ jobs:
 
           git add config/manager/kustomization.yaml CHANGELOG.md
           git commit -m "[skip ci] chore: bump version to ${{ inputs.version }} and update changelog"
-
-          # Push the branch and create PR
           git push
+
+          git tag -m inputs.tagMessage inputs.version
+          git push --tags
