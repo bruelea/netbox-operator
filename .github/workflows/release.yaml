@@ -73,6 +73,3 @@ jobs:
           git add config/manager/kustomization.yaml CHANGELOG.md
           git commit -m "[skip ci] chore: bump version to ${{ inputs.version }} and update changelog"
           git push
-
-          git tag -m inputs.tagMessage inputs.version
-          git push --tags
