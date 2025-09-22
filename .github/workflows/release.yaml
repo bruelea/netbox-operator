@@ -2,9 +2,16 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version that should be released, format: v0.0.0'
+        required: true
+        type: string
+      tagMessage:
+        description: 'Message that will be added to the version tag'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -25,50 +32,32 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-      - name: Get tag information
-        id: tag_data
-        run: |
-          # Get tag name and message
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          TAG_MESSAGE=$(git tag -n1 "$TAG_NAME" | sed "s|^$TAG_NAME[[:space:]]*||")
+      # - name: Create GitHub Release
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     # Determine if this is a prerelease
+      #     PRERELEASE=""
+      #     if [[ "${{ steps.tag_data.outputs.TAG_NAME }}" =~ (alpha|beta|rc) ]]; then
+      #       PRERELEASE="--prerelease"
+      #     fi
 
-          # If tag message is empty, use a default
-          if [ -z "$TAG_MESSAGE" ]; then
-            TAG_MESSAGE="Release $TAG_NAME"
-          fi
-
-          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
-          echo "TAG_MESSAGE<<EOF" >> $GITHUB_OUTPUT
-          echo "$TAG_MESSAGE" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          echo "VERSION=${TAG_NAME#v}" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Determine if this is a prerelease
-          PRERELEASE=""
-          if [[ "${{ steps.tag_data.outputs.TAG_NAME }}" =~ (alpha|beta|rc) ]]; then
-            PRERELEASE="--prerelease"
-          fi
-
-          # Create release with auto-generated notes
-          gh release create "${{ steps.tag_data.outputs.TAG_NAME }}" \
-            --title "${{ steps.tag_data.outputs.TAG_NAME }}" \
-            --notes "${{ steps.tag_data.outputs.TAG_MESSAGE }}" \
-            --generate-notes \
-            $PRERELEASE
+      #     # Create release with auto-generated notes
+      #     gh release create "${{ steps.tag_data.outputs.TAG_NAME }}" \
+      #       --title "${{ steps.tag_data.outputs.TAG_NAME }}" \
+      #       --notes "${{ steps.tag_data.outputs.TAG_MESSAGE }}" \
+      #       --generate-notes \
+      #       $PRERELEASE
 
       - name: Update kustomization.yaml
         run: |
-          ./scripts/bump-version.sh "${{ steps.tag_data.outputs.TAG_NAME }}"
+          ./scripts/bump-version.sh "${{ inputs.tagName }}"
 
       - name: Update CHANGELOG.md
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ./scripts/update-changelog-from-release.sh "${{ steps.tag_data.outputs.TAG_NAME }}"
+          ./scripts/update-changelog-from-release.sh "${{ inputs.tagName }}"
 
       - name: Commit and push changes
         env:
@@ -80,24 +69,8 @@ jobs:
             exit 0
           fi
 
-          # Create a new branch for the changes
-          BRANCH_NAME="release-updates-${{ steps.tag_data.outputs.TAG_NAME }}"
-          git checkout -b "$BRANCH_NAME"
-
           git add config/manager/kustomization.yaml CHANGELOG.md
-          git commit -m "[skip ci] chore: bump version to ${{ steps.tag_data.outputs.TAG_NAME }} and update changelog"
+          git commit -m "[skip ci] chore: bump version to ${{ inputs.tagName }} and update changelog"
 
           # Push the branch and create PR
-          git push origin "$BRANCH_NAME"
-          PR_URL=$(gh pr create \
-            --title "chore: bump version to ${{ steps.tag_data.outputs.TAG_NAME }} and update changelog" \
-            --body "Automated version bump and changelog update for release ${{ steps.tag_data.outputs.TAG_NAME }}" \
-            --head "$BRANCH_NAME" \
-            --base main)
-
-          # Extract PR number from URL
-          PR_NUMBER=$(echo "$PR_URL" | sed 's/.*\/pull\///')
-          echo "Created PR #$PR_NUMBER: $PR_URL"
-
-          # Enable auto-merge and merge the PR
-          gh pr merge "$PR_NUMBER" --auto --squash --delete-branch
+          git push
