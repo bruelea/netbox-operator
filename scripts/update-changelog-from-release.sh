@@ -13,8 +13,8 @@ fi
 
 echo "Updating CHANGELOG.md for release $TAG_NAME..."
 
-# Get release data from GitHub
-RELEASE_DATA=$(gh release view "$TAG_NAME" --json tagName,publishedAt,body,url)
+# Get release data from file
+RELEASE_DATA=$(cat /tmp/release_notes.md)
 
 # Extract fields
 TAG=$(echo "$RELEASE_DATA" | jq -r '.tagName')
