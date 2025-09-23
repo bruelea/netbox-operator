@@ -34,20 +34,19 @@ jobs:
 
       - name: Update kustomization.yaml
         run: |
+          # Fail if tag already exists
+          if [ -n "$(git tag --list "${{ inputs.version }}")" ]; then
+            echo "Tag "${{ inputs.version }}" already exists. Exit."
+            exit 1
+          else
+            echo "Tag "${{ inputs.version }}" does not exist. Continue."
+          fi
           ./scripts/bump-version.sh "${{ inputs.version }}"
 
       - name: Generate release notes for changelog
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Fail if tag already exists
-          if [ -n "$(git tag --list "${{ inputs.version }}")" ]; then
-            echo "Tag "${{ inputs.version }}" already exists."
-            exit 1
-          else
-            echo "Tag "${{ inputs.version }}" does not exist."
-          fi
-
           # Get the previous tag to determine commit range
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
 
@@ -106,7 +105,7 @@ jobs:
           git push origin "$BRANCH_NAME"
           PR_URL=$(gh pr create \
             --title "chore: bump version to ${{ inputs.version }} and update changelog" \
-            --body "Automated version bump and changelog update for release ${{ inputs.version }} \
+            --body "Automated version bump and changelog update for release ${{ inputs.version }}" \
             --head "$BRANCH_NAME" \
             --base main)
 
