@@ -40,6 +40,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Fail if tag already exists
+          if [ -n "$(git tag --list "${{ inputs.version }}")" ]; then
+            echo "Tag '$tag_name' already exists."
+            exit 1
+          else
+            echo "Tag '$tag_name' does not exist."
+          fi
+
           # Get the previous tag to determine commit range
           PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
 
@@ -57,9 +65,6 @@ jobs:
               -f target_commitish="$(git rev-parse HEAD)" \
               --jq '.body')
           fi
-
-          # Print file content
-          echo "$RELEASE_NOTES"
 
           # Save release notes to a file for use in changelog
           echo "$RELEASE_NOTES" > /tmp/release_notes.md
@@ -98,13 +103,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Fail if tag already exists
-          existing_tags=$(gh release list --limit 1000 --json tagName --jq '.[].tagName')
-          if echo "$existing_tags" | grep -qx "${{ inputs.version }}"; then
-            echo "Release tag ${{ inputs.version }} already exists. Exiting."
-            exit 1
-          fi
-
           # Create release with auto-generated notes
           gh release create "${{ inputs.version }}" \
             --title "${{ inputs.version }}" \
