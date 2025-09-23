@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.0.6] - 2025-09-23
+
+<!-- Release notes generated using configuration in .github/release.yml at bbe7f02b50d6593e99026e0cf2400210d72df2b7 -->
+
+## What's Changed
+### Contributions
+* Test/release pipeline by @bruelea in https://github.com/bruelea/netbox-operator/pull/7
+* use git cli to check if tag already exists by @bruelea in https://github.com/bruelea/netbox-operator/pull/8
+* create pr and create release on main branch by @bruelea in https://github.com/bruelea/netbox-operator/pull/9
+
+
+**Full Changelog**: https://github.com/bruelea/netbox-operator/compare/v0.0.4...v0.0.6
+
+[Full Release](https://github.com/netbox-community/netbox-operator/releases/tag/v0.0.6)
+
+---
+
 ## [v0.0.1] - 2025-09-22
 
 test tag
@@ -573,3 +590,16 @@ Mark Coleman, Richard Boucher, Kristopher Beevers, Jeff Gehlbach, Nat Morris
 ---
 
 
+
+## v0.0.6
+
+<!-- Release notes generated using configuration in .github/release.yml at bbe7f02b50d6593e99026e0cf2400210d72df2b7 -->
+
+## What's Changed
+### Contributions
+* Test/release pipeline by @bruelea in https://github.com/bruelea/netbox-operator/pull/7
+* use git cli to check if tag already exists by @bruelea in https://github.com/bruelea/netbox-operator/pull/8
+* create pr and create release on main branch by @bruelea in https://github.com/bruelea/netbox-operator/pull/9
+
+
+**Full Changelog**: https://github.com/bruelea/netbox-operator/compare/v0.0.4...v0.0.6
