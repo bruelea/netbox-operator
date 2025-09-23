@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.0.7] - 2025-09-23
+
+<!-- Release notes generated using configuration in .github/release.yml at 1a1a4152b70c93359cd611701d8d38c0ca569c6f -->
+
+## What's Changed
+### Contributions
+* fix variable name by @bruelea in https://github.com/bruelea/netbox-operator/pull/11
+* fix typo by @bruelea in https://github.com/bruelea/netbox-operator/pull/12
+
+
+**Full Changelog**: https://github.com/bruelea/netbox-operator/compare/v0.0.6...v0.0.7
+
+[Full Release](https://github.com/netbox-community/netbox-operator/releases/tag/v0.0.7)
+
+---
+
 ## [v0.0.6] - 2025-09-23
 
 <!-- Release notes generated using configuration in .github/release.yml at bbe7f02b50d6593e99026e0cf2400210d72df2b7 -->
@@ -603,3 +619,15 @@ Mark Coleman, Richard Boucher, Kristopher Beevers, Jeff Gehlbach, Nat Morris
 
 
 **Full Changelog**: https://github.com/bruelea/netbox-operator/compare/v0.0.4...v0.0.6
+
+## v0.0.7
+
+<!-- Release notes generated using configuration in .github/release.yml at 1a1a4152b70c93359cd611701d8d38c0ca569c6f -->
+
+## What's Changed
+### Contributions
+* fix variable name by @bruelea in https://github.com/bruelea/netbox-operator/pull/11
+* fix typo by @bruelea in https://github.com/bruelea/netbox-operator/pull/12
+
+
+**Full Changelog**: https://github.com/bruelea/netbox-operator/compare/v0.0.6...v0.0.7
