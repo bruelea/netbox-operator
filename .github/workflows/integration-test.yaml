@@ -1,8 +1,10 @@
 ---
 name: Integration Tests
 on:  # yamllint disable-line rule:truthy
-  release:
-    types: [created]
+  workflow_run:
+    workflows: ["Release"]
+    types: [completed]
+    branches: [main]
 permissions:
   contents: read
 jobs:
