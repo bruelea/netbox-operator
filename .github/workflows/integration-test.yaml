@@ -2,7 +2,7 @@
 name: Integration Tests
 on:  # yamllint disable-line rule:truthy
   release:
-    types: [published]
+    types: [created]
 permissions:
   contents: read
 jobs:
