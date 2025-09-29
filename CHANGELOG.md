@@ -633,3 +633,15 @@ Mark Coleman, Richard Boucher, Kristopher Beevers, Jeff Gehlbach, Nat Morris
 
 
 **Full Changelog**: https://github.com/bruelea/netbox-operator/compare/v0.0.6...v0.0.7
+
+## v0.0.8
+
+<!-- Release notes generated using configuration in .github/release.yml at db61259112f77a3f0f90481798c58c72e3c9c9b7 -->
+
+## What's Changed
+### Contributions
+* improvements from pr review by @bruelea in https://github.com/bruelea/netbox-operator/pull/16
+* fix typo by @bruelea in https://github.com/bruelea/netbox-operator/pull/17
+
+
+**Full Changelog**: https://github.com/bruelea/netbox-operator/compare/v0.0.7...v0.0.8
