@@ -44,7 +44,7 @@ jobs:
 
           # update image tag
           cd config/manager
-          kustomize edit set image controller="netbox-operator:${{inpust.version}}"
+          kustomize edit set image controller="netbox-operator:${{inputs.version}}"
           cd ../..
 
       - name: Generate release notes for changelog
