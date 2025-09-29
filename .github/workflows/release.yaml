@@ -42,7 +42,7 @@ jobs:
             echo "Tag "${{ inputs.version }}" does not exist. Continue."
           fi
 
-          # update image tag
+          # Update image tag
           cd config/manager
           kustomize edit set image controller="netbox-operator:${{inputs.version}}"
           cd ../..
