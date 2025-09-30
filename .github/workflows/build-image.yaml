@@ -16,6 +16,7 @@ env:
 jobs:
   push:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
     permissions:
       packages: write
       contents: read
@@ -45,16 +46,6 @@ jobs:
           fi
 
           echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
-
-          # Print the values to pipeline logs
-          echo "LATEST_TAG variable: $LATEST_TAG"
-
-      - name: Debug tag information
-        run: |
-          echo "steps.tag_info.outputs.latest_tag: ${{ steps.tag_info.outputs.latest_tag }}"
-        env:
-          TAG: ${{ steps.tag_info.outputs.latest_tag }}
-
       - name: Generate docker image tag
         id: meta
         uses: docker/metadata-action@v5.8.0
@@ -68,6 +59,3 @@ jobs:
             # (for tagged commits only) generate tags identical to the git tag version, with and without the leading v
             type=semver,pattern={{raw}},enable=${{ steps.tag_info.outputs.latest_tag != 'no-tag' }},value=${{ steps.tag_info.outputs.latest_tag }}
             type=semver,pattern={{version}},enable=${{ steps.tag_info.outputs.latest_tag != 'no-tag' }},value=${{ steps.tag_info.outputs.latest_tag }}
-      - name: Print tags
-        run: |
-          echo "Tags: ${{ steps.meta.outputs.tags }}"
