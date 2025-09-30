@@ -10,7 +10,6 @@ on:  # yamllint disable-line rule:truthy
     workflows: ["Release"]
     types: [completed]
     branches: [main]
-  pull_request:
 env:
   IMAGE_NAME: netbox-operator
   DOCKER_METADATA_PR_HEAD_SHA: true
@@ -36,7 +35,7 @@ jobs:
       - name: Get tag information
         id: tag_info
         run: |
-          LATEST_TAG=$(git describe --tags --exact-match HEAD || echo "no-tag")
+          LATEST_TAG=$(git tag --points-at HEAD || echo "no-tag")
           echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
 
       - name: Generate docker image tag
