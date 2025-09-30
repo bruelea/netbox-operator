@@ -58,8 +58,8 @@ jobs:
             # (for all commits) generate a tag named sha-[short sha value]
             type=sha,enable=true
             # (for tagged commits only) generate tags identical to the git tag version, with and without the leading v
-            type=semver,pattern={{raw}},enable=${{ steps.tag_info.outputs.latest_tag != 'no-tag' }},value=steps.tag_info.outputs.latest_tag
-            type=semver,pattern={{version}},enable=${{ steps.tag_info.outputs.latest_tag != 'no-tag' }},value=steps.tag_info.outputs.latest_tag
+            type=semver,pattern={{raw}},enable=${{ steps.tag_info.outputs.latest_tag != 'no-tag' }},value=${{ steps.tag_info.outputs.latest_tag }}
+            type=semver,pattern={{version}},enable=${{ steps.tag_info.outputs.latest_tag != 'no-tag' }},value=${{ steps.tag_info.outputs.latest_tag }}
       - name: Print tags
         run: |
           echo "Tags: ${{ steps.meta.outputs.tags }}"
