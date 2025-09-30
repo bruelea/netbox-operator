@@ -21,6 +21,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493  # v5.0.0
+        with:
+          fetch-tags: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -36,6 +38,12 @@ jobs:
         id: tag_info
         run: |
           LATEST_TAG=$(git tag --points-at HEAD || echo "no-tag")
+
+          # if LATEST_TAG is empty set it to "no-tag"
+          if [ -z "$LATEST_TAG" ]; then
+            LATEST_TAG="no-tag"
+          fi
+
           echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
 
           # Print the values to pipeline logs
