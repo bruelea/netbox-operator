@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.0.15] - 2025-09-30
+
+<!-- Release notes generated using configuration in .github/release.yml at 9f7c08007a27d342c7f08ff763e95c320af8426c -->
+
+## What's Changed
+### Contributions
+* change command to get tag by @bruelea in https://github.com/bruelea/netbox-operator/pull/33
+
+
+**Full Changelog**: https://github.com/bruelea/netbox-operator/compare/v0.0.14...v0.0.15
+
+[Full Release](https://github.com/netbox-community/netbox-operator/releases/tag/v0.0.15)
+
+---
+
 ## [v0.0.14] - 2025-09-30
 
 <!-- Release notes generated using configuration in .github/release.yml at 63bdbcfeb5aa92d103f9092188e780e8b172b8e9 -->
