@@ -115,8 +115,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git tag -m "${{ inputs.tagMessage }}" ${{ inputs.version}}
-          git push --tags
+          # Fetch the latest state after PR merge
+          git fetch origin main
+          git checkout main
+          git pull origin main
+
+          # Create and push the tag
+          git tag -a "${{ inputs.version }}" -m "${{ inputs.tagMessage }}"
+          git push origin "${{ inputs.version }}"
 
 
       - name: Create GitHub Release
